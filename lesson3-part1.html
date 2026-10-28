@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Traffic Light Detectives | Unit 2 Awesome Animals | Lesson 3 Part 1</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;800&family=Nunito:wght@600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eaf5f4;--d:#1f3a44;--d2:#4f8a96;--gr:#2e9e5b;--am:#f2a900;--rd:#d9382c;--sun:#ffc93c;--ink:#16262c;color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;font-family:Nunito,system-ui,sans-serif;background:var(--bg);color:var(--ink);font-weight:600;padding-bottom:40px}
+h1,h2,h3{font-family:'Baloo 2',system-ui,sans-serif;margin:0}
+header{background:var(--d);color:#fff;padding:14px 16px 10px;border-bottom:6px solid var(--sun)}
+header h1{font-size:clamp(22px,5vw,34px);font-weight:800;line-height:1.1}header small{opacity:.85}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:10px}
+.pill{background:#ffffff26;border-radius:99px;padding:5px 12px;font-weight:800}
+select,textarea{font:inherit;border:2px solid var(--d);border-radius:10px;padding:5px 8px;background:#fff;color:var(--ink)}
+.tabs button{background:transparent;color:#fff;border:2px solid #fff8;border-radius:99px;padding:5px 14px;font:800 15px Nunito;cursor:pointer}
+.tabs button.on{background:var(--sun);color:var(--ink);border-color:var(--sun)}
+main{max-width:900px;margin:0 auto;padding:14px}
+.map{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.st{background:#fff;border:3px solid var(--d);border-radius:16px;padding:10px;text-align:left;cursor:pointer;font:inherit;color:inherit;position:relative}
+.st:hover,.st:focus-visible{background:#f0fbfa;outline:3px solid var(--sun)}
+.st .em{font-size:30px}.st b{display:block;font-family:'Baloo 2';font-size:18px;line-height:1.1}.st span{font-size:13px;opacity:.8}
+.st.done{border-color:var(--gr);background:#e3f6e9}.st.done::after{content:"✔";position:absolute;right:10px;top:6px;color:var(--gr);font-size:22px}
+.st.cur{box-shadow:0 0 0 4px var(--sun)}
+.prog{height:12px;background:#0002;border-radius:9px;margin:12px 0;overflow:hidden}.prog i{display:block;height:100%;background:var(--am);width:0;transition:width .4s}
+#stage{background:#fff;border:3px solid var(--d);border-radius:20px;padding:16px;min-height:180px}
+#stage h2{color:var(--d);font-size:26px}
+.tag{display:inline-block;background:var(--sun);border-radius:8px;padding:2px 10px;font-size:13px;font-weight:800;margin-bottom:6px}
+.pic{width:90px;height:90px;background:#fff8e6;border-radius:16px;border:3px solid var(--d2);display:block;margin:6px 0}
+.chips{display:flex;flex-wrap:wrap;gap:8px;padding:10px;background:#fff1cf;border-radius:14px;min-height:50px;margin:8px 0}
+.chip{background:var(--d);color:#fff;border-radius:99px;padding:6px 16px;font:800 18px 'Baloo 2';cursor:grab;user-select:none}
+.chip.sel{outline:4px solid var(--am);transform:scale(1.08)}
+.lights{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:10px 0}
+.lt{border:4px dashed;border-radius:16px;padding:8px;min-height:130px;font-size:15px;background:#fff}
+.lt h3{font-size:19px}.lt.g{border-color:var(--gr)}.lt.a{border-color:var(--am)}.lt.r{border-color:var(--rd)}
+.lt .got{display:block;background:#f0fbfa;border-radius:8px;margin:4px 0;padding:3px 8px}
+.row{background:#f4fbfa;border:2px solid var(--d2);border-radius:12px;padding:8px 10px;margin:8px 0;font-size:18px;line-height:1.7}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin:12px 0}
+.opt,.btn{border:3px solid var(--d);background:#fff;border-radius:14px;padding:10px;font:800 17px Nunito;cursor:pointer;color:var(--ink)}
+.opt:hover:not(:disabled){background:#f0fbfa}.opt.ok{background:var(--gr);color:#fff;border-color:var(--gr)}
+.btn{background:var(--d);color:#fff}
+.hint{display:inline-block;border-radius:99px;padding:1px 10px;font-size:13px;color:#fff;font-weight:800}
+.dl{margin:10px 0}.ln{background:#fff;border:2px solid var(--d2);border-radius:12px;padding:6px 10px;margin:5px 0;font-size:17px;line-height:1.9}
+.ln b{color:var(--d)}.w{cursor:pointer;border-radius:6px;padding:0 2px}.w:hover{background:#fff1cf}.w.f{background:var(--gr);color:#fff;text-decoration:underline}
+.ev{background:#fff8e6;border-left:6px solid var(--sun);padding:8px 12px;margin:8px 0;border-radius:8px}
+.no{animation:sh .4s;border-color:var(--rd)!important}@keyframes sh{25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+.msg{margin-top:12px;padding:10px 14px;border-radius:12px;background:#e3f6e9;border:2px solid var(--gr);font-weight:800}
+.cert{text-align:center;border:6px double var(--am);background:#fff;border-radius:20px;padding:20px;margin:14px 0}.cert h2{font-size:30px;color:var(--am)}
+.boom{position:fixed;font-size:28px;pointer-events:none;animation:up 1.2s forwards;z-index:9}@keyframes up{to{transform:translateY(-220px) rotate(40deg);opacity:0}}
+table{border-collapse:collapse;width:100%;margin:8px 0;font-size:15px}td,th{border:2px solid var(--d2);padding:6px 8px;text-align:left;vertical-align:top}th{background:var(--d);color:#fff}
+.plan h3{color:var(--am);margin:16px 0 4px;font-size:22px}.plan ul{margin:4px 0;padding-left:20px}
+footer{text-align:center;margin-top:20px;font-weight:800;color:var(--d)}.hide{display:none}
+@media(prefers-reduced-motion:reduce){*{animation:none!important}}
+</style></head><body>
+<header>
+<h1>🚦 Traffic Light Detectives</h1>
+<small>Unit 2 · Awesome animals · Lesson 3 part 1 · Grammar: may, might, could, can’t, must · Grade 7 (Oman)</small>
+<div class="bar">
+<span class="pill">⭐ Score: <b id="sc">0</b></span>
+<label class="pill">Level <select id="lvl" aria-label="Choose your level"><option value="support">Support 🌱</option><option value="standard" selected>Standard 🌿</option><option value="challenge">Challenge 🌳</option></select></label>
+<span class="tabs"><button id="tG" class="on">Game</button> <button id="tT">Teacher plan</button></span>
+</div></header>
+<main>
+<section id="game">
+<p><b>Use clues and traffic lights to work out the mystery animals!</b> 🟢 sure it is true · 🟡 not sure · 🔴 sure it is not true. Play the cases in any order.</p>
+<div class="map" id="map"></div><div class="prog"><i id="pb"></i></div>
+<div id="stage"><h2>Ready, detective?</h2><p>Pick a case above. 🔊 Tap sentences to hear them.</p></div>
+<div id="cert"></div>
+</section>
+
+<section id="plan" class="plan hide">
+<h2>Teacher plan · 25 minutes</h2>
+<p><b>Class:</b> Grade 7 · <b>Unit 2:</b> Awesome animals · <b>Lesson 3, part 1</b> (Grammar, Class Book)<br>
+<b>Lesson aim:</b> to learn modals for deduction.<br>
+<b>Target language:</b> may, might, could, can’t, must.<br>
+<b>Materials:</b> Unit 2 flashcards, grammar animation, traffic light cards, photocopiable 6, device or projector.</p>
+<table>
+<tr><th>Time</th><th>Stage</th><th>What happens</th><th>Teacher’s Book link</th></tr>
+<tr><td>0–4</td><td><b>Warm-up</b><br>Case 1: Zoom In</td><td>Review the animal body part vocabulary. Students see a zoomed picture and choose the word. Use the flashcards on the board too.</td><td>“Starting the lesson”: place the Unit 2 flashcards on the board and quickly review the vocabulary.</td></tr>
+<tr><td>4–9</td><td><b>Presentation</b><br>Case 2: Traffic Lights</td><td>Write <i>It can’t be a snake. It’s got fins. It must be a fish.</i> Students drag modals to the green, amber or red light. Use traffic light cards in class.</td><td>“Presentation”: explain that students will learn modals for deduction; ask which words tell us something is true or not true.</td></tr>
+<tr><td>9–14</td><td><b>Formative 1</b><br>Case 3: Complete the Rules</td><td>Students circle the correct options to complete the grammar rules, then check as a class.</td><td>Activity 1: look at the grammar table, read and circle the correct options to complete the rules.</td></tr>
+<tr><td>14–20</td><td><b>Formative 2</b><br>Case 4: Mystery Clues</td><td>Students read clues and choose the right modal. Pairs say their own sentences. Use the Traffic light technique to check understanding.</td><td>Practice with the grammar table and the Traffic light technique (page 17).</td></tr>
+<tr><td>20–25</td><td><b>Closing</b><br>Case 5: Spot the Modals</td><td>Students tap the modals in the Lesson 2 dialogue. Challenge: write own sentences. Exit ticket.</td><td>Activity 2: read the dialogue in Lesson 2 and underline examples. “Finishing the lesson”: summative questions.</td></tr>
+</table>
+<h3>Differentiation</h3>
+<ul>
+<li><b>Support 🌱:</b> two choices in Zoom In, colour hints on the traffic lights and in Mystery Clues, and pictures with the clues.</li>
+<li><b>Standard 🌿:</b> full activities.</li>
+<li><b>Challenge 🌳:</b> four choices in Zoom In, no hints, and students must write two of their own sentences with a modal in the last case.</li>
+</ul>
+<h3>Notes and keys</h3>
+<ul>
+<li><b>Rules:</b> <i>must</i> = sure it is true · <i>can’t</i> = sure it is not true · <i>may, might, could</i> = not sure. Modal verbs are followed by the infinitive without to (e.g. <i>must be</i>).</li>
+<li>Mystery Clues key: must, can’t, might, must, must, could, can’t.</li>
+<li>The clues and rule sentences are written for this game. Compare them with the grammar table in your Class Book (page 40) and edit if needed.</li>
+<li>Extra activity in the Teacher’s Book: groups imagine hearing strange noises at home and use modals to guess what is making them.</li>
+<li>Deaf/hard of hearing students: use the traffic light cards and written clues; audio is optional.</li>
+</ul>
+</section>
+<footer>Created by T.Badria Alfalahi</footer>
+</main>
+<script>
+const $=s=>document.querySelector(s),sh=a=>[...a].sort(()=>Math.random()-.5),lvl=()=>$('#lvl').value;
+const S={score:0,done:{},cur:-1};
+const I={
+whiskers:'<circle cx="30" cy="32" r="16" fill="#f4b36b"/><circle cx="24" cy="28" r="2.5"/><circle cx="36" cy="28" r="2.5"/><path d="M27 35h6l-3 3z" fill="#e0607e"/><path d="M2 32l20 3M2 40l20-2M58 32l-20 3M58 40l-20-2" stroke="#222" stroke-width="1.5" fill="none"/>',
+spines:'<path d="M6 48L8 30L15 40L18 20L25 38L30 14L36 38L42 20L45 40L52 30L54 48Z" fill="#6b4a2b"/><ellipse cx="30" cy="48" rx="24" ry="6" fill="#e9c9a0"/>',
+claws:'<g fill="#eee" stroke="#555" stroke-width="2"><path d="M8 54Q8 24 24 6Q20 30 22 54Z"/><path d="M24 54Q26 24 40 6Q36 30 38 54Z"/><path d="M40 54Q44 26 56 12Q50 32 52 54Z"/></g>',
+scales:'<g fill="#4fb3b0" stroke="#0e5a5c" stroke-width="2"><circle cx="16" cy="18" r="10"/><circle cx="36" cy="18" r="10"/><circle cx="26" cy="32" r="10"/><circle cx="46" cy="32" r="10"/><circle cx="16" cy="46" r="10"/><circle cx="36" cy="46" r="10"/></g>',
+beak:'<circle cx="22" cy="32" r="18" fill="#f7e7a1"/><path d="M38 26L58 33L38 40Z" fill="#f08a1c"/><circle cx="25" cy="26" r="3"/>',
+hump:'<path d="M3 50Q6 34 20 36Q28 6 38 36Q54 34 57 50Z" fill="#d9a05b"/>'};
+const svg=(p,z)=>`<svg class="pic" viewBox="${z?'14 14 32 32':'0 0 60 60'}" role="img" aria-label="clue picture">${I[p]}</svg>`;
+function say(t){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='en-GB';u.rate=.85;speechSynthesis.speak(u)}catch(e){}}
+function boom(){for(let i=0;i<14;i++){const b=document.createElement('span');b.className='boom';b.textContent=['⭐','🎉','🚦','🔍'][i%4];b.style.left=10+Math.random()*80+'vw';b.style.top=60+Math.random()*30+'vh';document.body.appendChild(b);setTimeout(()=>b.remove(),1300)}}
+function pts(n){S.score+=n;$('#sc').textContent=S.score}
+const ST=[{e:'🔎',t:'Zoom In',m:4,k:'Warm-up'},{e:'🚦',t:'Traffic Lights',m:5,k:'Drag and drop'},{e:'📏',t:'Complete the Rules',m:5,k:'Multiple choice'},{e:'🕵️',t:'Mystery Clues',m:6,k:'Choose the modal'},{e:'✏️',t:'Spot the Modals',m:5,k:'Closing'}];
+function drawMap(){
+$('#map').innerHTML=ST.map((s,i)=>`<button class="st ${S.done[i]?'done':''} ${S.cur==i?'cur':''}" data-i="${i}"><span class="em">${s.e}</span><b>Case ${i+1}: ${s.t}</b><span>${s.k} · about ${s.m} min</span></button>`).join('');
+document.querySelectorAll('.st').forEach(b=>b.onclick=()=>go(+b.dataset.i));
+const n=Object.keys(S.done).length;$('#pb').style.width=n*20+'%';
+if(n==5)$('#cert').innerHTML=`<div class="cert"><div style="font-size:50px">🏆🚦🔍</div><h2>Master Detective!</h2><p>You can use <i>must, can’t, may, might</i> and <i>could</i> to make deductions.<br><b>Final score: ${S.score}</b></p><small>Created by T.Badria Alfalahi</small></div>`}
+function finish(i,x=''){
+if(!S.done[i]){S.done[i]=1;pts(20);boom()}drawMap();
+const nx=ST.findIndex((_,j)=>!S.done[j]);
+$('#stage').insertAdjacentHTML('beforeend',`<div class="msg">🎉 Case solved! +20 bonus. ${x}${nx>=0?`<br><button class="btn" id="nx" style="margin-top:8px">Next: ${ST[nx].t}</button>`:'<br>All cases solved. Scroll down for your certificate!'}</div>`);
+if(nx>=0)$('#nx').onclick=()=>go(nx)}
+function go(i){S.cur=i;drawMap();[m0,m1,m2,m3,m4][i]();$('#stage').scrollIntoView({behavior:'smooth',block:'start'})}
+const head=i=>`<span class="tag">Case ${i+1} · ${ST[i].k}</span><h2>${ST[i].t}</h2>`;
+const flash=(e,c='no')=>{e.classList.add(c);setTimeout(()=>e.classList.remove(c),450)};
+const hint=m=>({must:['green','🟢 sure'],can:['red','🔴 sure not'],may:['amber','🟡 not sure']}[m]);
+function dnd(check){
+let sel=null;
+document.querySelectorAll('.chip').forEach(c=>{c.ondragstart=e=>e.dataTransfer.setData('text',c.dataset.w);c.onclick=()=>{document.querySelectorAll('.chip.sel').forEach(x=>x.classList.remove('sel'));sel=c;c.classList.add('sel')}});
+document.querySelectorAll('.lt').forEach(s=>{s.ondragover=e=>e.preventDefault();s.ondrop=e=>{e.preventDefault();check(s,e.dataTransfer.getData('text'))};s.onclick=()=>{if(sel)check(s,sel.dataset.w)}})}
+
+function m0(){
+const P=['whiskers','spines','claws','scales','beak','hump'],L=lvl(),Q=sh(P).slice(0,5);let r=0;
+const show=()=>{
+if(r==Q.length){$('#stage').innerHTML=head(0)+'<p>Sharp eyes! You remember the body parts.</p>';return finish(0,'Say a sentence with one of the words.')}
+const a=Q[r],n=L=='support'?1:L=='challenge'?3:2,o=sh([a,...sh(P.filter(x=>x!=a)).slice(0,n)]);
+$('#stage').innerHTML=head(0)+`<p>Picture ${r+1} of ${Q.length}. What body part is it?</p>${svg(a,1)}<div class="opts">${o.map(x=>`<button class="opt" data-c="${x==a?1:0}">${x}</button>`).join('')}</div>`;
+document.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{if(b.dataset.c=='1'){b.classList.add('ok');pts(8);say(a);r++;document.querySelectorAll('.opt').forEach(x=>x.disabled=true);setTimeout(show,900)}else{flash(b);b.disabled=true}})};
+show()}
+
+function m1(){
+const K={must:'g','can’t':'r',may:'a',might:'a',could:'a'};
+const EX={must:'It’s got fins. It must be a fish.','can’t':'It can’t be a snake. It’s got fins.',may:'It may be a bird.',might:'It might be a cat.',could:'It could be a fox.'};
+let left=5;
+$('#stage').innerHTML=head(1)+`<p>Write on the board: <i>It can’t be a snake. It’s got fins. It must be a fish.</i> Drag each modal to the right traffic light (or tap a word, then a light).</p><div class="chips">${sh(Object.keys(K)).map(w=>`<span class="chip" draggable="true" data-w="${w}">${w}</span>`).join('')}</div><div class="lights"><div class="lt g" data-k="g"><h3>🟢 I am sure it IS true</h3>${lvl()=='support'?'<small>one word</small>':''}</div><div class="lt a" data-k="a"><h3>🟡 I am NOT sure</h3>${lvl()=='support'?'<small>three words</small>':''}</div><div class="lt r" data-k="r"><h3>🔴 I am sure it is NOT true</h3>${lvl()=='support'?'<small>one word</small>':''}</div></div>`;
+dnd((s,w)=>{if(K[w]!=s.dataset.k||s.querySelector(`[data-n="${w}"]`)){flash(s);return}
+s.insertAdjacentHTML('beforeend',`<span class="got" data-n="${w}"><b>${w}</b>: ${EX[w]}</span>`);const c=document.querySelector(`.chip[data-w="${w}"]`);if(c)c.remove();pts(8);say(EX[w]);if(--left==0)finish(1,'Modals are followed by the infinitive: must <b>be</b>.')})}
+
+function m2(){
+const Q=[['We use ___ when we are sure something is true.',['must','can’t','might'],0,'g'],['We use ___ when we are sure something is NOT true.',['must','can’t','could'],1,'r'],['We use may, ___ or could when we are not sure.',['must','might','can’t'],1,'a'],['After a modal verb we use the ___ form of the verb: It must ___ a fish.',['infinitive (be)','-ing (being)','past (was)'],0,'a']];
+let q=0;const L=lvl();
+const show=()=>{
+if(q==Q.length){$('#stage').innerHTML=head(2)+'<p>Great! You know the rules.</p>';return finish(2)}
+const [s,o,a,c]=Q[q];
+$('#stage').innerHTML=head(2)+`<p>Rule ${q+1} of ${Q.length}. Read and circle the correct option.</p><div class="row">${s.replace('___','<b>_____</b>')} ${L=='support'&&q<3?`<span class="hint" style="background:var(--${{g:'gr',r:'rd',a:'am'}[c]})">${{g:'🟢',r:'🔴',a:'🟡'}[c]}</span>`:''}</div><div class="opts">${o.map((x,i)=>`<button class="opt" data-c="${i==a?1:0}">${x}</button>`).join('')}</div>`;
+document.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{if(b.dataset.c=='1'){b.classList.add('ok');pts(10);say(s.replace('___',b.textContent.split(' ')[0]));q++;document.querySelectorAll('.opt').forEach(x=>x.disabled=true);setTimeout(show,1000)}else{flash(b);b.disabled=true}})};
+show()}
+
+function m3(){
+const Q=[['scales','It has fins and scales.','fish',0,'must'],['beak','It has wings and a beak.','fish',1,'can’t'],[null,'I can hear something in the dark grass.','snake',2,'might'],['hump','It has a hump and lives in the desert.','camel',0,'must'],['spines','It has spines and rolls into a ball.','hedgehog',0,'must'],['whiskers','It is small and brown, with four paws.','cat or a rabbit',2,'could'],['scales','It has scales but no wings.','bird',1,'can’t']];
+const L=lvl();let q=0;
+const show=()=>{
+if(q==Q.length){$('#stage').innerHTML=head(3)+'<p>Every case is closed!</p>';return finish(3,'Make your own clue for a partner.')}
+const [ic,cl,an,t,a]=Q[q],h=hint(a=='must'?'must':a=='can’t'?'can':'may');
+let o=L=='challenge'?['must','can’t','might','could']:['must','can’t',a=='could'?'could':'might'];
+if(L=='support')o=[a,a=='must'?'can’t':'must'];o=[...new Set(o)];
+$('#stage').innerHTML=head(3)+`<p>Clue ${q+1} of ${Q.length}. Choose the best modal.</p>${ic&&L!='challenge'?svg(ic,0):''}<div class="row"><b>Clue:</b> ${cl}<br>It <b>_____</b> be a ${an}. ${L=='support'?`<span class="hint" style="background:var(--${{green:'gr',red:'rd',amber:'am'}[h[0]]})">${h[1]}</span>`:''}</div><div class="opts">${sh(o).map(x=>`<button class="opt" data-c="${x==a?1:0}">${x}</button>`).join('')}</div>`;
+document.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{if(b.dataset.c=='1'){b.classList.add('ok');pts(10);say(cl+' It '+a+' be a '+an+'.');q++;document.querySelectorAll('.opt').forEach(x=>x.disabled=true);setTimeout(show,1500)}else{flash(b);b.disabled=true}})};
+show()}
+
+function m4(){
+const D=[['Bayan','Watch out! It might be a bear with long claws!'],['Nawal','It can’t be a bear. Bears don’t live here.'],['Emily','It could be a bird. I can hear birds.'],['Nawal','It can’t be a bird. It doesn’t have wings.'],['Nawal','It can’t be a snake. It doesn’t have scales. Oh! It has spines!'],['Bayan','Spines? Then it must be a hedgehog.'],['Emily','No, you shouldn’t touch it. It may be scared.']];
+const M=['might','can’t','could','must','may'],tot=7,L=lvl();let n=0;
+const wrap=t=>t.split(' ').map(w=>{const c=w.replace(/[.!?,]/g,'');return `<span class="w" data-m="${M.includes(c)?1:0}">${c}</span>${w.slice(c.length)} `}).join('');
+$('#stage').innerHTML=head(4)+`<p>Read the dialogue from Lesson 2. Tap and underline all the modals: <b>may, might, could, can’t, must</b> (${tot} to find).</p><p><b>Found: <span id="cn">0</span> / ${tot}</b></p><div class="dl">${D.map(d=>`<div class="ln"><b>${d[0]}:</b> ${wrap(d[1])}</div>`).join('')}</div><div id="after"></div>`;
+document.querySelectorAll('.w').forEach(w=>w.onclick=()=>{
+if(w.classList.contains('f'))return;
+if(w.dataset.m=='1'){w.classList.add('f');n++;pts(6);$('#cn').textContent=n;say(w.closest('.ln').textContent.replace(/^[A-Za-z]+:/,''));
+if(n==tot)$('#after').innerHTML=`${L=='challenge'?'<p><b>🌳 Challenge:</b> write two sentences about a mystery animal with a modal.<br><textarea id="tx" rows="3" style="width:100%" placeholder="It has … It must be a …"></textarea></p><button class="btn" id="ck">Check</button>':''}<p><b>Exit ticket:</b> “I can use modals to make deductions.”</p><div class="opts"><button class="opt" data-x>😟 Not yet</button><button class="opt" data-x>🙂 Nearly</button><button class="opt" data-x>😎 Yes!</button></div><div id="fb"></div>`,
+(()=>{let ok=L!='challenge';const fin=b=>{if(!ok){$('#fb').textContent='Write two sentences with a modal first.';return}b.classList.add('ok');finish(4,'Great detective work!')};
+document.querySelectorAll('[data-x]').forEach(b=>b.onclick=()=>fin(b));
+if($('#ck'))$('#ck').onclick=()=>{const ls=$('#tx').value.split(/[.!?\n]+/).filter(s=>/\b(may|might|could|can’t|can't|must)\b/i.test(s));if(ls.length>=2){ok=true;pts(20);$('#fb').textContent='✅ Great sentences! Now tap your exit ticket.'}else $('#fb').textContent='Use may, might, could, can’t or must in two sentences.'}})()}
+else flash(w)})}
+
+$('#lvl').onchange=()=>{if(S.cur>=0&&!S.done[S.cur])go(S.cur)};
+$('#tG').onclick=()=>{$('#game').classList.remove('hide');$('#plan').classList.add('hide');$('#tG').classList.add('on');$('#tT').classList.remove('on')};
+$('#tT').onclick=()=>{$('#plan').classList.remove('hide');$('#game').classList.add('hide');$('#tT').classList.add('on');$('#tG').classList.remove('on')};
+drawMap();
+</script></body></html>
